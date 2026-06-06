@@ -525,10 +525,12 @@ function renderAll() {
 
   // ── イベント登録 ──
 
-  // 単位トラッカー入力
+  // 単位トラッカー入力（入力中は再描画しない → blurで保存）
   document.querySelectorAll('.num-input').forEach(inp => {
     inp.addEventListener('input', () => {
       state[inp.dataset.id] = parseInt(inp.value) || 0;
+    });
+    inp.addEventListener('blur', () => {
       renderAll();
     });
     if (state[inp.dataset.id] !== undefined) inp.value = state[inp.dataset.id];
