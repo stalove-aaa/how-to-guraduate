@@ -32,13 +32,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--ink)
 /* SETUP CARD */
 .setup{background:var(--ink);padding:0 18px 18px}
 .setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.setup-grid.three{grid-template-columns:1fr 1fr 1fr}
 .sel-label{font-size:10px;color:#aaa;font-weight:700;letter-spacing:.1em;margin-bottom:5px;display:block}
 select{
   font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:700;
   width:100%;background:#222;border:1px solid #333;border-radius:8px;
-  padding:10px 12px;color:#fff;outline:none;-webkit-appearance:none;
-  cursor:pointer;
+  padding:10px 12px;color:#fff;outline:none;-webkit-appearance:none;cursor:pointer;
 }
 select option{background:#222}
 
@@ -93,6 +91,73 @@ select option{background:#222}
 /* NOTE */
 .note{font-size:11px;color:var(--muted);background:#F7F5F0;border-radius:8px;padding:8px 10px;margin-top:10px;line-height:1.7}
 
+/* ━━ GPA SECTION ━━ */
+.gpa-card{background:var(--ink);border-radius:var(--r);color:#fff;padding:16px;margin-bottom:6px}
+.gpa-hero{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px}
+.gpa-num{font-size:52px;font-weight:900;line-height:1;letter-spacing:-2px}
+.gpa-num-sub{font-size:13px;color:#666;font-weight:400;margin-left:3px}
+.gpa-meta{text-align:right}
+.gpa-meta-row{font-size:11px;color:#666;margin-bottom:3px}
+.gpa-meta-val{font-size:18px;font-weight:700;color:#aaa}
+.gpa-formula-bar{background:#1a1a1a;border-radius:8px;padding:8px 12px;font-size:11px;color:#666;margin-bottom:14px;font-family:monospace}
+
+/* grade distribution mini bars */
+.gpa-dist{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:10px}
+.gpa-dist-item{text-align:center}
+.gpa-dist-bar-wrap{height:28px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:3px}
+.gpa-dist-bar{width:12px;border-radius:3px 3px 0 0;min-height:2px;transition:height .3s}
+.gpa-dist-label{font-size:9px;color:#555;font-weight:700}
+.gpa-dist-count{font-size:9px;color:#444}
+
+/* course table */
+.course-table-wrap{margin-top:12px}
+.course-table-head{display:grid;grid-template-columns:1fr 52px 80px 28px;gap:6px;padding:0 0 6px;border-bottom:1px solid #333;margin-bottom:4px}
+.course-table-head span{font-size:9px;color:#555;font-weight:700;letter-spacing:.05em}
+.course-row{display:grid;grid-template-columns:1fr 52px 80px 28px;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid #1e1e1e}
+.course-row:last-child{border-bottom:none}
+.course-name-inp{
+  font-family:'Noto Sans JP',sans-serif;font-size:11px;font-weight:500;
+  background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;
+  padding:5px 7px;color:#ddd;outline:none;width:100%;
+}
+.course-name-inp:focus{border-color:#444}
+.course-name-inp::placeholder{color:#3a3a3a}
+.course-credit-inp{
+  font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;
+  background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;
+  padding:5px 6px;color:#fff;outline:none;width:100%;text-align:center;
+  -webkit-appearance:none;
+}
+.course-credit-inp:focus{border-color:#444}
+.course-grade-sel{
+  font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:700;
+  background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;
+  padding:5px 6px;color:#fff;outline:none;width:100%;
+  -webkit-appearance:none;cursor:pointer;text-align:center;
+}
+.course-grade-sel:focus{border-color:#444}
+.course-grade-sel option{background:#1a1a1a}
+.del-btn{
+  width:24px;height:24px;border-radius:6px;background:#2a2a2a;border:none;
+  color:#555;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;line-height:1;
+}
+.del-btn:active{background:#3a3a3a;color:#888}
+.add-course-btn{
+  width:100%;margin-top:10px;padding:10px;background:#1a1a1a;border:1px dashed #2a2a2a;
+  border-radius:8px;color:#555;font-family:'Noto Sans JP',sans-serif;font-size:12px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:border-color .2s, color .2s;
+}
+.add-course-btn:active{border-color:#444;color:#888}
+
+/* grade color badges */
+.grade-A{color:#1DB954}
+.grade-B{color:#3498db}
+.grade-C{color:#F5A623}
+.grade-D{color:#e67e22}
+.grade-E{color:#E74C3C}
+
 /* FOOTER */
 .footer-note{font-size:10px;color:var(--muted);text-align:center;padding:0 16px;line-height:1.8}
 </style>
@@ -112,7 +177,7 @@ select option{background:#222}
   <div class="setup-grid" style="margin-bottom:8px">
     <div>
       <span class="sel-label">入学年度</span>
-      <select id="entryYear" onchange="init()">
+      <select id="entryYear" onchange="renderAll()">
         <option value="2023">2023年度入学</option>
         <option value="2024" selected>2024年度入学</option>
         <option value="2025">2025年度入学</option>
@@ -121,7 +186,7 @@ select option{background:#222}
     </div>
     <div>
       <span class="sel-label">ELAストリーム</span>
-      <select id="elaStream" onchange="init()">
+      <select id="elaStream" onchange="renderAll()">
         <option value="1">Stream 1（6単位）</option>
         <option value="2">Stream 2（10単位）</option>
         <option value="3">Stream 3（22単位）</option>
@@ -131,7 +196,7 @@ select option{background:#222}
   </div>
   <div>
     <span class="sel-label">メジャー形式</span>
-    <select id="majorType" onchange="init()">
+    <select id="majorType" onchange="renderAll()">
       <option value="single" selected>シングルメジャー</option>
       <option value="double">ダブルメジャー</option>
       <option value="minor">メジャー＋マイナー</option>
@@ -142,92 +207,239 @@ select option{background:#222}
 <div class="main" id="mainArea"></div>
 
 <div class="footer-note">
-  ※ このツールはICUの卒業要件PDFをもとに作成していますが、正確な単位管理はicuMAPおよび教務グループにてご確認ください。入学年度・ELAストリームにより要件が異なります。
+  ※ このツールはICUの卒業要件PDFをもとに作成していますが、正確な単位管理はicuMAPおよび教務グループにてご確認ください。GPA計算はICU公式方式（A=4, B=3, C=2, D=1, E=0）に基づきます。
 </div>
 
 <script>
 // ━━━━━━━━━━━━━━━━━━━━━
+// GPA データ（ICU公式: A=4, B=3, C=2, D=1, E=0）
+// ━━━━━━━━━━━━━━━━━━━━━
+const GP = { A:4, B:3, C:2, D:1, E:0 };
+const GRADE_LABELS = ['A','B','C','D','E'];
+const GRADE_COLORS = { A:'#1DB954', B:'#3498db', C:'#F5A623', D:'#e67e22', E:'#E74C3C' };
+
+// 科目リスト: [{id, name, credit, grade}]
+let courses = [];
+let nextId = 1;
+
+function addCourse(name='', credit=3, grade='A') {
+  courses.push({ id: nextId++, name, credit, grade });
+}
+
+function removeCourse(id) {
+  courses = courses.filter(c => c.id !== id);
+}
+
+function calcGPA() {
+  if (courses.length === 0) return { gpa: null, totalCredits: 0, totalPoints: 0 };
+  let totalCredits = 0, totalPoints = 0;
+  courses.forEach(c => {
+    const cr = parseInt(c.credit) || 0;
+    const gp = GP[c.grade] ?? 0;
+    totalCredits += cr;
+    totalPoints += cr * gp;
+  });
+  const gpa = totalCredits > 0 ? totalPoints / totalCredits : null;
+  return { gpa, totalCredits, totalPoints };
+}
+
+function gpaColor(gpa) {
+  if (gpa === null) return '#555';
+  if (gpa >= 3.5) return '#1DB954';
+  if (gpa >= 2.5) return '#F5A623';
+  return '#E74C3C';
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━
 // 卒業要件データ
 // ━━━━━━━━━━━━━━━━━━━━━
 const REQS = {
-  // 2023・2024年度: 136単位, GEN=21, 自然科学=6(N1+N2)
   2023: {
-    total: 136,
-    ela: {1:6, 2:10, 3:22, 4:25},
-    gen: 21,
-    genDetail: {X:3, H:3, S:3, N:6, free:6},  // free=自由選択
-    pe: 2,
-    fdn: 18,
-    fdn_major: 6,
-    am_single: 21,
-    thesis: 9,
-    elective: {single:{1:59,2:55,3:43,4:40}, double:{1:29,2:25,3:13,4:10}, minor:{1:44,2:40,3:28,4:25}},
-    genNote: '自然科学はN1から3・N2から3、またはどちらか一方から6単位'
+    total:136, ela:{1:6,2:10,3:22,4:25}, gen:21,
+    genDetail:{X:3,H:3,S:3,N:6,free:6}, pe:2, fdn:18, fdn_major:6,
+    am_single:21, thesis:9,
+    elective:{single:{1:59,2:55,3:43,4:40},double:{1:29,2:25,3:13,4:10},minor:{1:44,2:40,3:28,4:25}},
+    genNote:'自然科学はN1から3・N2から3、またはどちらか一方から6単位'
   },
   2024: {
-    total: 136,
-    ela: {1:6, 2:10, 3:22, 4:25},
-    gen: 21,
-    genDetail: {X:3, H:3, S:3, N:6, free:6},
-    pe: 2,
-    fdn: 18,
-    fdn_major: 6,
-    am_single: 21,
-    thesis: 9,
-    elective: {single:{1:59,2:55,3:43,4:40}, double:{1:29,2:25,3:13,4:10}, minor:{1:44,2:40,3:28,4:25}},
-    genNote: '自然科学はN1から3・N2から3、またはどちらか一方から6単位'
+    total:136, ela:{1:6,2:10,3:22,4:25}, gen:21,
+    genDetail:{X:3,H:3,S:3,N:6,free:6}, pe:2, fdn:18, fdn_major:6,
+    am_single:21, thesis:9,
+    elective:{single:{1:59,2:55,3:43,4:40},double:{1:29,2:25,3:13,4:10},minor:{1:44,2:40,3:28,4:25}},
+    genNote:'自然科学はN1から3・N2から3、またはどちらか一方から6単位'
   },
-  // 2025・2026年度: 130単位, GEN=18, 自然科学=3
   2025: {
-    total: 130,
-    ela: {1:6, 2:10, 3:22, 4:25},
-    gen: 18,
-    genDetail: {X:3, H:3, S:3, N:3, free:6},
-    pe: 2,
-    fdn: 18,
-    fdn_major: 6,
-    am_single: 21,
-    thesis: 9,
-    elective: {single:{1:56,2:52,3:40,4:37}, double:{1:26,2:22,3:10,4:7}, minor:{1:41,2:37,3:25,4:22}},
-    genNote: '自然科学はN1またはN2から3単位'
+    total:130, ela:{1:6,2:10,3:22,4:25}, gen:18,
+    genDetail:{X:3,H:3,S:3,N:3,free:6}, pe:2, fdn:18, fdn_major:6,
+    am_single:21, thesis:9,
+    elective:{single:{1:56,2:52,3:40,4:37},double:{1:26,2:22,3:10,4:7},minor:{1:41,2:37,3:25,4:22}},
+    genNote:'自然科学はN1またはN2から3単位'
   },
   2026: {
-    total: 130,
-    ela: {1:6, 2:10, 3:22, 4:25},
-    gen: 18,
-    genDetail: {X:3, H:3, S:3, N:3, free:6},
-    pe: 2,
-    fdn: 18,
-    fdn_major: 6,
-    am_single: 21,
-    thesis: 9,
-    elective: {single:{1:56,2:52,3:40,4:37}, double:{1:26,2:22,3:10,4:7}, minor:{1:41,2:37,3:25,4:22}},
-    genNote: '自然科学はN1またはN2から3単位'
+    total:130, ela:{1:6,2:10,3:22,4:25}, gen:18,
+    genDetail:{X:3,H:3,S:3,N:3,free:6}, pe:2, fdn:18, fdn_major:6,
+    am_single:21, thesis:9,
+    elective:{single:{1:56,2:52,3:40,4:37},double:{1:26,2:22,3:10,4:7},minor:{1:41,2:37,3:25,4:22}},
+    genNote:'自然科学はN1またはN2から3単位'
   }
 };
 
 // ━━━━━━━━━━━━━━━━━━━━━
-// State
+// Credit tracker state
 // ━━━━━━━━━━━━━━━━━━━━━
-let state = {};  // {fieldId: value}
-
+let state = {};
 function getVal(id) { return parseInt(state[id] || 0) || 0; }
 
-// ━━━━━━━━━━━━━━━━━━━━━
-// 設定取得
-// ━━━━━━━━━━━━━━━━━━━━━
 function getConfig() {
   const year = parseInt(document.getElementById('entryYear').value);
   const stream = parseInt(document.getElementById('elaStream').value);
   const majorType = document.getElementById('majorType').value;
-  const req = REQS[year];
-  return { year, stream, majorType, req };
+  return { year, stream, majorType, req: REQS[year] };
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━
-// 初期化・再描画
+// 開閉状態の管理
 // ━━━━━━━━━━━━━━━━━━━━━
-function init() {
+let openSections = new Set();
+
+function saveOpenSections() {
+  openSections = new Set();
+  document.querySelectorAll('.section-body.open').forEach(body => {
+    const hdr = body.previousElementSibling;
+    if (hdr && hdr.dataset.secId) openSections.add(hdr.dataset.secId);
+  });
+}
+
+function restoreOpenSections() {
+  document.querySelectorAll('.section-hdr').forEach(hdr => {
+    if (openSections.has(hdr.dataset.secId)) {
+      hdr.nextElementSibling.classList.add('open');
+      const ch = hdr.querySelector('.chevron');
+      if (ch) ch.classList.add('open');
+    }
+  });
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━
+// GPA HTML builder
+// ━━━━━━━━━━━━━━━━━━━━━
+function buildGPASection() {
+  const { gpa, totalCredits, totalPoints } = calcGPA();
+  const gpaStr = gpa !== null ? gpa.toFixed(2) : '—';
+  const col = gpaColor(gpa);
+
+  // grade distribution counts
+  const dist = { A:0, B:0, C:0, D:0, E:0 };
+  courses.forEach(c => { if (dist[c.grade] !== undefined) dist[c.grade]++; });
+  const maxDist = Math.max(1, ...Object.values(dist));
+
+  const distHTML = GRADE_LABELS.map(g => {
+    const h = Math.round((dist[g] / maxDist) * 24);
+    return `<div class="gpa-dist-item">
+      <div class="gpa-dist-bar-wrap">
+        <div class="gpa-dist-bar" style="height:${Math.max(2,h)}px;background:${GRADE_COLORS[g]}"></div>
+      </div>
+      <div class="gpa-dist-label" style="color:${GRADE_COLORS[g]}">${g}</div>
+      <div class="gpa-dist-count">${dist[g]}</div>
+    </div>`;
+  }).join('');
+
+  // course rows
+  const rowsHTML = courses.map(c => {
+    const gradeOpts = GRADE_LABELS.map(g =>
+      `<option value="${g}" ${c.grade===g?'selected':''}>${g}</option>`
+    ).join('');
+    return `<div class="course-row" data-cid="${c.id}">
+      <input class="course-name-inp" type="text" placeholder="科目名（任意）" value="${escHtml(c.name)}" data-field="name" data-cid="${c.id}">
+      <input class="course-credit-inp" type="number" inputmode="numeric" min="1" max="9" value="${c.credit}" data-field="credit" data-cid="${c.id}">
+      <select class="course-grade-sel" data-field="grade" data-cid="${c.id}">${gradeOpts}</select>
+      <button class="del-btn" data-del="${c.id}">×</button>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="gpa-card">
+    <div class="gpa-hero">
+      <div>
+        <div style="font-size:10px;color:#555;font-weight:700;letter-spacing:.1em;margin-bottom:4px">GPA（累積）</div>
+        <div class="gpa-num" style="color:${col}">${gpaStr}<span class="gpa-num-sub">/ 4.0</span></div>
+      </div>
+      <div class="gpa-meta">
+        <div class="gpa-meta-row">総履修単位</div>
+        <div class="gpa-meta-val">${totalCredits} <span style="font-size:11px">単位</span></div>
+        <div class="gpa-meta-row" style="margin-top:6px">グレードポイント計</div>
+        <div class="gpa-meta-val">${totalPoints} <span style="font-size:11px">pts</span></div>
+      </div>
+    </div>
+    <div class="gpa-formula-bar">GPA = グレードポイント計(${totalPoints}) ÷ 総履修単位(${totalCredits}) = ${gpaStr}</div>
+    <div class="gpa-dist">${distHTML}</div>
+    <div class="course-table-wrap">
+      <div class="course-table-head">
+        <span>科目名</span><span style="text-align:center">単位</span><span style="text-align:center">成績</span><span></span>
+      </div>
+      ${rowsHTML}
+      <button class="add-course-btn" id="addCourseBtn">＋ 科目を追加</button>
+    </div>
+  </div>`;
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━
+// Section & input helpers
+// ━━━━━━━━━━━━━━━━━━━━━
+function makeSection(id, title, got, req, bodyHTML, isGPA=false) {
+  let badge, miniProgHTML;
+  if (isGPA) {
+    const { gpa } = calcGPA();
+    const col = gpaColor(gpa);
+    const gpaStr = gpa !== null ? gpa.toFixed(2) : '—';
+    const pct = gpa !== null ? Math.min(100, Math.round(gpa/4*100)) : 0;
+    badge = `<span class="badge-frac" style="color:${col}">GPA ${gpaStr}</span>`;
+    miniProgHTML = `<div class="mini-prog"><div class="mini-prog-bar" style="width:${pct}%;background:${col}"></div></div>`;
+  } else {
+    const pct = req > 0 ? Math.min(100, Math.round(got/req*100)) : 0;
+    const done = got >= req;
+    const col = done ? 'var(--green)' : got > 0 ? 'var(--yellow)' : 'var(--muted)';
+    badge = `<span class="badge-frac" style="color:${col}">${got}/${req}</span>`;
+    miniProgHTML = `<div class="mini-prog"><div class="mini-prog-bar" style="width:${pct}%;background:${col}"></div></div>`;
+  }
+  return `
+  <div class="section">
+    <div class="section-hdr" data-sec-id="${id}">
+      <div class="section-hdr-left">
+        <div class="section-icon">${isGPA ? 'G' : title.charAt(0)}</div>
+        <div>
+          <div class="section-title">${title}</div>
+          ${miniProgHTML}
+        </div>
+      </div>
+      <div class="section-badge">${badge}<span class="chevron">▼</span></div>
+    </div>
+    <div class="section-body">${bodyHTML}</div>
+  </div>`;
+}
+
+function makeInputRow(id, label, req, required=false) {
+  const val = state[id] || '';
+  const reqText = req !== null ? `/ ${req}単位${required?'（必修）':''}` : '';
+  return `
+  <div class="input-row">
+    <div class="input-label">${label}</div>
+    <div class="input-right">
+      <span class="req-badge">${reqText}</span>
+      <input class="num-input" type="number" inputmode="numeric" min="0" max="99" placeholder="0" data-id="${id}" value="${val}">
+    </div>
+  </div>`;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━
+// Main render
+// ━━━━━━━━━━━━━━━━━━━━━
+function renderAll() {
+  saveOpenSections();
   const { year, stream, majorType, req } = getConfig();
   const elaReq = req.ela[stream];
   const genReq = req.gen;
@@ -236,31 +448,32 @@ function init() {
   const fdnMajorReq = req.fdn_major;
   const amReq = majorType === 'double' ? 51 : req.am_single;
   const thesisReq = req.thesis;
-  const elReq = req.elective[majorType === 'minor' ? 'minor' : majorType === 'double' ? 'double' : 'single'][stream];
+  const elReq = req.elective[majorType==='minor'?'minor':majorType==='double'?'double':'single'][stream];
   const totalReq = req.total;
 
-  // 各セクションの取得単位計算
   const elaGot = Math.min(getVal('ela'), elaReq);
-  const genGot = Math.min(getVal('genX') + getVal('genH') + getVal('genS') + getVal('genN') + getVal('genFree'), genReq);
+  const genGot = Math.min(getVal('genX')+getVal('genH')+getVal('genS')+getVal('genN')+getVal('genFree'), genReq);
   const peGot = Math.min(getVal('pe'), peReq);
-  const fdnGot = Math.min(getVal('fdn_other') + getVal('fdn_major_val'), fdnReq);
+  const fdnGot = Math.min(getVal('fdn_other')+getVal('fdn_major_val'), fdnReq);
   let amGot = getVal('am');
-  if (majorType === 'double') amGot = getVal('am') + getVal('am2');
-  if (majorType === 'minor') amGot = getVal('am') + getVal('am_minor');
+  if (majorType==='double') amGot = getVal('am')+getVal('am2');
+  if (majorType==='minor') amGot = getVal('am')+getVal('am_minor');
   amGot = Math.min(amGot, amReq);
   const thesisGot = Math.min(getVal('thesis'), thesisReq);
   const elGot = Math.min(getVal('elective'), elReq);
-
-  const totalGot = elaGot + genGot + peGot + fdnGot + amGot + thesisGot + elGot;
-  const pct = Math.min(100, Math.round(totalGot / totalReq * 100));
+  const totalGot = elaGot+genGot+peGot+fdnGot+amGot+thesisGot+elGot;
+  const pct = Math.min(100, Math.round(totalGot/totalReq*100));
 
   document.getElementById('mainArea').innerHTML = `
+    <!-- GPA -->
+    ${makeSection('gpa-sec', 'GPA 計算', null, null, buildGPASection(), true)}
+
     <!-- サマリー -->
     <div class="summary">
       <div class="summary-top">
         <div>
           <div class="summary-label">卒業まで</div>
-          <div class="summary-total">${Math.max(0, totalReq - totalGot)}<span style="font-size:15px;font-weight:400;color:#aaa"> 単位</span></div>
+          <div class="summary-total">${Math.max(0,totalReq-totalGot)}<span style="font-size:15px;font-weight:400;color:#aaa"> 単位</span></div>
           <div class="summary-sub">${totalGot} / ${totalReq} 単位取得済 (${pct}%)</div>
         </div>
         <div style="text-align:right">
@@ -272,122 +485,113 @@ function init() {
       <div class="progress-nums"><span>0</span><span>${totalReq}</span></div>
     </div>
 
-    <!-- ELA -->
-    ${makeSection('ela-sec', '語学科目 (ELA)', elaGot, elaReq, `
-      ${makeInputRow('ela', 'ELA取得済み単位', elaReq)}
+    ${makeSection('ela-sec','語学科目 (ELA)',elaGot,elaReq,`
+      ${makeInputRow('ela','ELA取得済み単位',elaReq)}
       <div class="note">Stream ${stream}の必要単位は${elaReq}単位。ELA060（論文作成3単位）を含む。</div>
     `)}
-
-    <!-- GEN -->
-    ${makeSection('gen-sec', '一般教育科目 (GEN)', genGot, genReq, `
-      ${makeInputRow('genX', 'キリスト教概論 (GEX)', req.genDetail.X, true)}
-      ${makeInputRow('genH', '人文科学 (H1${year>=2025?"/H2":""})', req.genDetail.H, true)}
-      ${makeInputRow('genS', '社会科学 (S1${year>=2025?"/S2":""})', req.genDetail.S, true)}
-      ${makeInputRow('genN', '自然科学 (N1/N2)', req.genDetail.N, true)}
-      ${makeInputRow('genFree', '自由選択 (系列Ⅰ・Ⅱ・GEL)', req.genDetail.free)}
+    ${makeSection('gen-sec','一般教育科目 (GEN)',genGot,genReq,`
+      ${makeInputRow('genX','キリスト教概論 (GEX)',req.genDetail.X,true)}
+      ${makeInputRow('genH','人文科学 (H1${year>=2025?"/H2":""})',req.genDetail.H,true)}
+      ${makeInputRow('genS','社会科学 (S1${year>=2025?"/S2":""})',req.genDetail.S,true)}
+      ${makeInputRow('genN','自然科学 (N1/N2)',req.genDetail.N,true)}
+      ${makeInputRow('genFree','自由選択 (系列Ⅰ・Ⅱ・GEL)',req.genDetail.free)}
       <div class="note">合計${genReq}単位必要。余剰分は${year>=2025?'9':'6'}単位まで選択科目に算入可。<br>${req.genNote}</div>
     `)}
-
-    <!-- PE -->
-    ${makeSection('pe-sec', '保健体育科目 (PE)', peGot, peReq, `
-      ${makeInputRow('pe', 'PE取得済み単位', peReq)}
+    ${makeSection('pe-sec','保健体育科目 (PE)',peGot,peReq,`
+      ${makeInputRow('pe','PE取得済み単位',peReq)}
       <div class="note">講義(HPE001)1単位＋実技(HPE005〜007)1単位、計2単位必修。</div>
     `)}
-
-    <!-- 基礎科目 -->
-    ${makeSection('fdn-sec', '基礎科目 (Foundation)', fdnGot, fdnReq, `
-      ${makeInputRow('fdn_major_val', `メジャー基礎科目（${fdnMajorReq}単位以上必須）`, fdnMajorReq)}
-      ${majorType !== 'single' ? makeInputRow('fdn_major2_val', `${majorType==='double'?'第2メジャー':'マイナー'}基礎科目（6単位以上必須）`, 6) : ''}
-      ${makeInputRow('fdn_other', 'その他の基礎科目（任意）', null)}
+    ${makeSection('fdn-sec','基礎科目 (Foundation)',fdnGot,fdnReq,`
+      ${makeInputRow('fdn_major_val',`メジャー基礎科目（${fdnMajorReq}単位以上必須）`,fdnMajorReq)}
+      ${majorType!=='single'?makeInputRow('fdn_major2_val',`${majorType==='double'?'第2メジャー':'マイナー'}基礎科目（6単位以上必須）`,6):''}
+      ${makeInputRow('fdn_other','その他の基礎科目（任意）',null)}
       <div class="note">合計18単位必要。超過分は選択科目に算入。<br>100番台の科目（例：ECO102）が基礎科目。</div>
     `)}
-
-    <!-- 専攻科目 -->
-    ${makeSection('am-sec', `専攻科目 (Area Major)`, amGot, amReq, `
-      ${makeInputRow('am', majorType==='double'?'第1メジャー専攻科目':'メジャー専攻科目', 21)}
-      ${majorType === 'double' ? makeInputRow('am2', '第2メジャー専攻科目（卒論なし側）', 30) : ''}
-      ${majorType === 'minor' ? makeInputRow('am_minor', 'マイナー専攻科目', 15) : ''}
+    ${makeSection('am-sec','専攻科目 (Area Major)',amGot,amReq,`
+      ${makeInputRow('am',majorType==='double'?'第1メジャー専攻科目':'メジャー専攻科目',21)}
+      ${majorType==='double'?makeInputRow('am2','第2メジャー専攻科目（卒論なし側）',30):''}
+      ${majorType==='minor'?makeInputRow('am_minor','マイナー専攻科目',15):''}
       <div class="note">${majorType==='single'?'メジャーから21単位。200番台以上の科目。':majorType==='double'?'卒論メジャー21単位＋非卒論メジャー30単位（うち300番台3単位以上）計51単位。':'メジャー21単位＋マイナー15単位、計36単位。'}</div>
     `)}
-
-    <!-- 卒業研究 -->
-    ${makeSection('thesis-sec', '卒業研究 (Senior Thesis)', thesisGot, thesisReq, `
-      ${makeInputRow('thesis', '卒業研究取得済み単位', thesisReq)}
+    ${makeSection('thesis-sec','卒業研究 (Senior Thesis)',thesisGot,thesisReq,`
+      ${makeInputRow('thesis','卒業研究取得済み単位',thesisReq)}
       <div class="note">9単位（4年次に3学期連続履修）。3年次第3学期終了時に開始資格の申請が必要。</div>
     `)}
-
-    <!-- 選択科目 -->
-    ${makeSection('el-sec', '選択科目 (Electives)', elGot, elReq, `
-      ${makeInputRow('elective', '選択科目取得済み単位', elReq)}
+    ${makeSection('el-sec','選択科目 (Electives)',elGot,elReq,`
+      ${makeInputRow('elective','選択科目取得済み単位',elReq)}
       <div class="note">メジャー・ストリームにより必要数が変動。<br>メジャー外の全科目、超過基礎・専攻科目、GEN余剰分などを含められる。</div>
     `)}
   `;
 
-  // イベント再登録
+  // ── イベント登録 ──
+
+  // 単位トラッカー入力
   document.querySelectorAll('.num-input').forEach(inp => {
     inp.addEventListener('input', () => {
       state[inp.dataset.id] = parseInt(inp.value) || 0;
-      refreshUI();
+      renderAll();
     });
-    // 既存値を復元
     if (state[inp.dataset.id] !== undefined) inp.value = state[inp.dataset.id];
   });
 
+  // セクション開閉
   document.querySelectorAll('.section-hdr').forEach(hdr => {
     hdr.addEventListener('click', () => {
       const body = hdr.nextElementSibling;
-      const chevron = hdr.querySelector('.chevron');
+      const ch = hdr.querySelector('.chevron');
       body.classList.toggle('open');
-      chevron.classList.toggle('open');
+      ch.classList.toggle('open');
     });
   });
-}
 
-function refreshUI() { init(); }
+  // GPA：科目名（入力中は再描画しない → blurで保存）
+  document.querySelectorAll('.course-name-inp').forEach(el => {
+    el.addEventListener('input', () => {
+      const course = courses.find(c => c.id === parseInt(el.dataset.cid));
+      if (course) course.name = el.value;
+    });
+    el.addEventListener('blur', () => {
+      openSections.add('gpa-sec');
+      renderAll();
+    });
+  });
 
-// ━━━━━━━━━━━━━━━━━━━━━
-// UI Helpers
-// ━━━━━━━━━━━━━━━━━━━━━
-function makeSection(id, title, got, req, bodyHTML) {
-  const pct = req > 0 ? Math.min(100, Math.round(got / req * 100)) : 0;
-  const done = got >= req;
-  const color = done ? 'var(--green)' : got > 0 ? 'var(--yellow)' : 'var(--muted)';
-  return `
-  <div class="section">
-    <div class="section-hdr">
-      <div class="section-hdr-left">
-        <div class="section-icon">${title.charAt(0)}</div>
-        <div>
-          <div class="section-title">${title}</div>
-          <div class="mini-prog"><div class="mini-prog-bar" style="width:${pct}%;background:${color}"></div></div>
-        </div>
-      </div>
-      <div class="section-badge">
-        <span class="badge-frac" style="color:${color}">${got}/${req}</span>
-        <span class="chevron">▼</span>
-      </div>
-    </div>
-    <div class="section-body">
-      ${bodyHTML}
-    </div>
-  </div>`;
-}
+  // GPA：単位数・グレード（即時反映）
+  document.querySelectorAll('.course-credit-inp, .course-grade-sel').forEach(el => {
+    el.addEventListener('input', () => {
+      const cid = parseInt(el.dataset.cid);
+      const course = courses.find(c => c.id === cid);
+      if (!course) return;
+      if (el.dataset.field === 'credit') course.credit = parseInt(el.value) || 0;
+      if (el.dataset.field === 'grade')  course.grade  = el.value;
+      openSections.add('gpa-sec');
+      renderAll();
+    });
+  });
 
-function makeInputRow(id, label, req, required=false) {
-  const val = state[id] || '';
-  const reqText = req !== null ? `/ ${req}単位${required ? '（必修）' : ''}` : '';
-  return `
-  <div class="input-row">
-    <div class="input-label">${label}</div>
-    <div class="input-right">
-      <span class="req-badge">${reqText}</span>
-      <input class="num-input" type="number" inputmode="numeric" min="0" max="99" placeholder="0" data-id="${id}" value="${val}">
-    </div>
-  </div>`;
+  // GPA：科目追加
+  const addBtn = document.getElementById('addCourseBtn');
+  if (addBtn) addBtn.addEventListener('click', () => {
+    addCourse();
+    // GPAセクションを開いた状態に保つ
+    openSections.add('gpa-sec');
+    renderAll();
+  });
+
+  // GPA：科目削除
+  document.querySelectorAll('.del-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      removeCourse(parseInt(btn.dataset.del));
+      openSections.add('gpa-sec');
+      renderAll();
+    });
+  });
+
+  restoreOpenSections();
 }
 
 // 起動
-init();
+renderAll();
 </script>
 <script>
 if("serviceWorker" in navigator){
