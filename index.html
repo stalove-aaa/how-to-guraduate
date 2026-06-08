@@ -209,7 +209,11 @@ select option{background:#222}
 
 <div class="main" id="mainArea"></div>
 
-<div class="ad-wrap" id="admax-bottom"></div>
+<div class="ad-wrap">
+<!-- admax -->
+<script src="https://adm.shinobi.jp/s/ac84c02c06aa0ff9e34d832e8dcc51aa"></script>
+<!-- admax -->
+</div>
 
 <div class="footer-note">
   ※ このツールはICUの卒業要件PDFをもとに作成していますが、正確な単位管理はicuMAPおよび教務グループにてご確認ください。GPA計算はICU公式方式（A=4, B=3, C=2, D=1, E=0）に基づきます。
@@ -607,14 +611,6 @@ if("serviceWorker" in navigator){
   });
 }
 </script>
-<script>
-// Admax 動的注入（ページ操作ブロック防止）
-window.addEventListener('load', function() {
-  var s = document.createElement('script');
-  s.src = 'https://adm.shinobi.jp/s/ac84c02c06aa0ff9e34d832e8dcc51aa';
-  s.async = true;
-  document.getElementById('admax-bottom').appendChild(s);
-});
-</script>
+
 </body>
 </html>
