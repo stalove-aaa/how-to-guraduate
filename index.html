@@ -160,6 +160,9 @@ select option{background:#222}
 
 /* FOOTER */
 .footer-note{font-size:10px;color:var(--muted);text-align:center;padding:0 16px;line-height:1.8}
+
+/* ADMAX */
+.ad-wrap{padding:12px 16px;text-align:center}
 </style>
 </head>
 <body>
@@ -205,6 +208,8 @@ select option{background:#222}
 </div>
 
 <div class="main" id="mainArea"></div>
+
+<div class="ad-wrap" id="admax-bottom"></div>
 
 <div class="footer-note">
   ※ このツールはICUの卒業要件PDFをもとに作成していますが、正確な単位管理はicuMAPおよび教務グループにてご確認ください。GPA計算はICU公式方式（A=4, B=3, C=2, D=1, E=0）に基づきます。
@@ -601,6 +606,15 @@ if("serviceWorker" in navigator){
     navigator.serviceWorker.register("/sw.js").catch(()=>{});
   });
 }
+</script>
+<script>
+// Admax 動的注入（ページ操作ブロック防止）
+window.addEventListener('load', function() {
+  var s = document.createElement('script');
+  s.src = 'https://adm.shinobi.jp/s/ac84c02c06aa0ff9e34d832e8dcc51aa';
+  s.async = true;
+  document.getElementById('admax-bottom').appendChild(s);
+});
 </script>
 </body>
 </html>
